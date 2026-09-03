@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gold Wolf</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#241640; --sky:#3a2766; --ridge:#1a1030; --ink:#0f0a1e;
+    --gold:#e8b84a; --moon:#f2dfa0; --paper:#f5ecd6; --gray:#a49fbf; --ember:#c9532e;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--night);color:var(--ink);font-family:"Comic Neue","Comic Sans MS",cursive;font-size:18px;line-height:1.4}
+  .book{max-width:720px;margin:0 auto;padding:16px}
+
+  .cover{position:relative;background:var(--paper);border:4px solid var(--ink);padding:0;overflow:hidden;margin-bottom:22px}
+  .cover svg{display:block;width:100%;height:auto}
+  .cover .title{position:absolute;left:0;right:0;top:34px;text-align:center;color:var(--paper);font-family:Anton,Impact,sans-serif;font-size:64px;line-height:.95;letter-spacing:1px;text-shadow:4px 4px 0 var(--ink)}
+  .cover .title small{display:block;font-size:22px;letter-spacing:4px;color:var(--gold);margin-bottom:6px;text-shadow:2px 2px 0 var(--ink)}
+  .cover .ded{position:absolute;left:0;right:0;bottom:18px;text-align:center;color:var(--moon);font-size:18px;font-style:italic}
+
+  .page{background:var(--paper);border:4px solid var(--ink);padding:10px;margin-bottom:22px;display:grid;grid-template-columns:1fr;gap:10px}
+  .pgnum{font-family:Anton,Impact,sans-serif;color:var(--gold);letter-spacing:3px;font-size:14px;text-align:right;margin:-2px 4px 10px 0}
+  .panel{position:relative;border:3px solid var(--ink);background:var(--sky);overflow:hidden;min-height:200px}
+  .panel svg{display:block;width:100%;height:auto}
+  .cap{position:absolute;left:10px;top:10px;max-width:78%;background:var(--gold);border:3px solid var(--ink);padding:6px 10px;font-weight:700;font-size:16px;line-height:1.3;box-shadow:3px 3px 0 var(--ink)}
+  .cap.bot{top:auto;bottom:10px}
+  .cap.right{left:auto;right:10px}
+  .bub{position:absolute;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:8px 12px;font-size:16px;line-height:1.3;max-width:62%;box-shadow:3px 3px 0 var(--ink)}
+  .bub:after{content:"";position:absolute;width:14px;height:14px;background:#fff;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg);bottom:-10px;left:26px}
+  .bub.rt:after{left:auto;right:26px}
+  .bub.big{font-size:19px;font-weight:700}
+  .rules{background:var(--paper);padding:16px 18px;min-height:0}
+  .rules h2{font-family:Anton,Impact,sans-serif;font-size:30px;margin:0 0 10px;letter-spacing:1px;color:var(--ink)}
+  .rules ol{margin:0;padding-left:26px}
+  .rules li{margin:0 0 10px;font-size:18px}
+  .rules li b{background:var(--gold);padding:0 4px}
+  .end{text-align:center;font-family:Anton,Impact,sans-serif;font-size:34px;letter-spacing:4px;padding:14px 0 6px;color:var(--ink)}
+  .talk{background:var(--paper);border:4px solid var(--ink);padding:16px 18px;margin-bottom:22px}
+  .talk h2{font-family:Anton,Impact,sans-serif;font-size:28px;margin:0 0 8px;letter-spacing:1px}
+  .talk p{margin:0 0 10px}
+  .talk .line{border-bottom:2px dashed var(--ink);height:34px}
+  @media (min-width:560px){
+    .page{grid-template-columns:1fr 1fr}
+    .wide{grid-column:1 / -1}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .cover .moonglow{animation:pulse 6s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:.25}50%{opacity:.5}}
+  }
+  .back{display:inline-block;color:var(--gold);font-family:Anton,Impact,sans-serif;letter-spacing:2px;text-decoration:none;font-size:16px;margin:0 0 12px}
+  .back:hover{color:var(--moon)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="wolf" viewBox="0 0 68 40"><path d="M2,12 L8,20 L14,22 L18,18 L30,16 L42,16 L48,12 L52,4 L55,10 L58,3 L60,10 L66,14 L62,18 L56,22 L54,26 L50,30 L52,40 L47,40 L44,30 L38,30 L36,40 L31,40 L30,30 L22,30 L20,40 L15,40 L14,30 L10,30 L8,40 L3,40 L6,28 L4,20 Z"/></symbol>
+    <symbol id="wolf-sit" viewBox="0 0 48 52"><path d="M6,52 L4,34 L8,22 L16,14 L22,12 L26,4 L29,10 L34,3 L36,10 L42,14 L40,18 L34,22 L32,28 L30,38 L32,52 L26,52 L25,42 L20,40 L18,52 Z"/></symbol>
+    <symbol id="wolf-howl" viewBox="0 0 48 60"><path d="M8,60 L6,40 L10,26 L20,18 L26,10 L28,2 L32,8 L38,2 L40,10 L46,12 L40,16 L36,22 L34,30 L32,42 L34,60 L28,60 L27,48 L20,46 L18,60 Z"/></symbol>
+  </defs>
+</svg>
+
+<div class="book">
+  <a class="back" href="../">&larr; WHAT I'VE LEARNED</a>
+
+  <!-- COVER -->
+  <div class="cover">
+    <svg viewBox="0 0 700 560" role="img" aria-label="Cover: a gold wolf on a ridge under a full moon, the dark pack behind him">
+      <rect width="700" height="560" fill="#241640"/>
+      <circle class="moonglow" cx="500" cy="230" r="120" fill="#e8b84a" opacity=".3"/>
+      <circle cx="500" cy="230" r="78" fill="#f2dfa0"/>
+      <circle cx="480" cy="214" r="10" fill="#e8b84a"/><circle cx="516" cy="250" r="16" fill="#e8b84a"/>
+      <g fill="#f2dfa0"><circle cx="60" cy="120" r="2.5"/><circle cx="140" cy="80" r="2"/><circle cx="240" cy="150" r="2.5"/><circle cx="330" cy="90" r="2"/><circle cx="620" cy="90" r="2.5"/><circle cx="660" cy="300" r="2"/><circle cx="90" cy="260" r="2"/><circle cx="400" cy="60" r="2"/></g>
+      <path d="M0,400 C120,330 240,360 350,380 C460,400 560,320 700,350 L700,560 L0,560 Z" fill="#3a2766"/>
+      <path d="M0,470 C100,420 220,440 340,450 C460,460 560,430 700,440 L700,560 L0,560 Z" fill="#1a1030"/>
+      <use href="#wolf" x="40" y="340" width="110" height="65" fill="#0f0a1e"/>
+      <use href="#wolf" x="120" y="360" width="95" height="56" fill="#0f0a1e"/>
+      <use href="#wolf" x="20" y="392" width="80" height="47" fill="#0f0a1e"/>
+      <use href="#wolf-howl" x="330" y="300" width="140" height="175" fill="#e8b84a"/>
+    </svg>
+    <div class="title"><small>A COMIC FOR HUDSON</small>The Gold Wolf</div>
+    <div class="ded">From Dad.</div>
+  </div>
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <div class="pgnum wide">ONE</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 260" aria-hidden="true">
+        <rect width="700" height="260" fill="#3a2766"/>
+        <circle cx="600" cy="60" r="34" fill="#f2dfa0"/>
+        <path d="M0,190 C150,140 300,170 450,180 C550,187 620,150 700,160 L700,260 L0,260 Z" fill="#241640"/>
+        <path d="M0,230 C200,205 400,225 700,215 L700,260 L0,260 Z" fill="#1a1030"/>
+        <use href="#wolf" x="120" y="128" width="100" height="59" fill="#0f0a1e"/>
+        <use href="#wolf" x="230" y="145" width="90" height="53" fill="#0f0a1e"/>
+        <use href="#wolf" x="60" y="160" width="80" height="47" fill="#0f0a1e"/>
+        <use href="#wolf" x="330" y="160" width="70" height="41" fill="#0f0a1e"/>
+        <use href="#wolf" x="400" y="150" width="60" height="35" fill="#e8b84a"/>
+      </svg>
+      <div class="cap">This is Hudson's pack. Mom, Dad, family. The ones who would come looking for him no matter what.</div>
+      <div class="cap bot right">One of them was gold. The only gold wolf for miles.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <path d="M0,200 C100,170 240,190 340,180 L340,260 L0,260 Z" fill="#241640"/>
+        <use href="#wolf-sit" x="60" y="80" width="110" height="120" fill="#0f0a1e"/>
+        <use href="#wolf-sit" x="200" y="125" width="70" height="76" fill="#e8b84a"/>
+      </svg>
+      <div class="bub" style="left:12px;top:12px">You're thirteen. Old enough to hear this straight. My father told me. Now it's your turn.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <ellipse cx="120" cy="130" rx="46" ry="20" fill="#e8b84a"/>
+        <ellipse cx="220" cy="130" rx="46" ry="20" fill="#e8b84a"/>
+        <circle cx="128" cy="130" r="9" fill="#0f0a1e"/><circle cx="212" cy="130" r="9" fill="#0f0a1e"/>
+      </svg>
+      <div class="bub big" style="left:12px;bottom:14px;max-width:88%">You are a wolf of this pack. Nothing changes that. Not where you go. Not who you run with.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <div class="pgnum wide">TWO</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 240" aria-hidden="true">
+        <rect width="700" height="240" fill="#3a2766"/>
+        <circle cx="110" cy="60" r="30" fill="#f2dfa0"/>
+        <path d="M0,200 C100,150 200,180 320,170 C420,162 520,110 700,130 L700,240 L0,240 Z" fill="#241640"/>
+        <use href="#wolf" x="480" y="90" width="70" height="41" fill="#a49fbf"/>
+        <use href="#wolf" x="560" y="80" width="60" height="35" fill="#a49fbf"/>
+        <use href="#wolf" x="600" y="100" width="65" height="38" fill="#a49fbf"/>
+        <use href="#wolf" x="520" y="112" width="55" height="32" fill="#a49fbf"/>
+        <use href="#wolf" x="90" y="150" width="70" height="41" fill="#e8b84a"/>
+        <path d="M170,180 C260,170 360,160 470,128" fill="none" stroke="#e8b84a" stroke-width="3" stroke-dasharray="6 8"/>
+      </svg>
+      <div class="cap">Across the ridge lived another pack. Hudson had friends there. Real friends. Good ones.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <path d="M0,190 C120,160 220,180 340,170 L340,260 L0,260 Z" fill="#241640"/>
+        <use href="#wolf" x="30" y="120" width="80" height="47" fill="#a49fbf"/>
+        <use href="#wolf" x="120" y="100" width="85" height="50" fill="#e8b84a"/>
+        <use href="#wolf" x="220" y="125" width="80" height="47" fill="#a49fbf"/>
+        <use href="#wolf" x="160" y="150" width="70" height="41" fill="#a49fbf"/>
+      </svg>
+      <div class="bub" style="left:12px;top:12px">Go. Run with them. Have fun. I'm not telling you not to.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <path d="M0,170 C120,140 220,160 340,150 L340,260 L0,260 Z" fill="#241640"/>
+        <use href="#wolf" x="20" y="110" width="70" height="41" fill="#a49fbf"/>
+        <use href="#wolf" x="90" y="120" width="70" height="41" fill="#a49fbf"/>
+        <use href="#wolf" x="160" y="108" width="70" height="41" fill="#a49fbf"/>
+        <use href="#wolf" x="230" y="120" width="70" height="41" fill="#a49fbf"/>
+        <use href="#wolf" x="125" y="150" width="80" height="47" fill="#e8b84a"/>
+        <circle cx="165" cy="172" r="60" fill="none" stroke="#e8b84a" stroke-width="3" stroke-dasharray="4 6"/>
+      </svg>
+      <div class="cap bot" style="max-width:92%">But out there, you are the only gold wolf on that hill. And everyone can see it. Even the ones who love you.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page">
+    <div class="pgnum wide">THREE</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 240" aria-hidden="true">
+        <rect width="700" height="240" fill="#241640"/>
+        <circle cx="560" cy="50" r="28" fill="#f2dfa0"/>
+        <path d="M0,150 C120,130 240,140 360,135 C480,130 600,120 700,125 L700,240 L0,240 Z" fill="#1a1030"/>
+        <path d="M0,175 C120,165 260,190 400,180 C520,172 620,185 700,178 L700,240 L0,240 Z" fill="#2e4a7a"/>
+        <path d="M60,200 C120,195 180,205 240,198 M300,212 C360,206 420,216 480,208 M520,196 C580,191 640,200 690,194" fill="none" stroke="#5b7fb8" stroke-width="2"/>
+        <use href="#wolf" x="120" y="100" width="75" height="44" fill="#a49fbf"/>
+        <use href="#wolf" x="230" y="92" width="75" height="44" fill="#a49fbf"/>
+        <use href="#wolf" x="340" y="100" width="75" height="44" fill="#a49fbf"/>
+        <use href="#wolf" x="450" y="96" width="75" height="44" fill="#e8b84a"/>
+      </svg>
+      <div class="cap">One night they all went down to the river.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <path d="M0,150 C100,140 220,150 340,140 L340,260 L0,260 Z" fill="#1a1030"/>
+        <path d="M0,190 C100,180 220,200 340,190 L340,260 L0,260 Z" fill="#2e4a7a"/>
+        <g transform="translate(140,0) scale(-1,1)">
+          <use href="#wolf" x="20" y="96" width="60" height="35" fill="#a49fbf"/>
+          <use href="#wolf" x="80" y="104" width="55" height="32" fill="#a49fbf"/>
+        </g>
+        <g transform="translate(280,0) scale(-1,1)">
+          <use href="#wolf" x="70" y="88" width="55" height="32" fill="#a49fbf"/>
+        </g>
+        <use href="#wolf" x="240" y="140" width="80" height="47" fill="#e8b84a"/>
+      </svg>
+      <div class="bub rt" style="right:12px;top:12px">We're heading back! Catch up later!</div>
+      <div class="cap bot" style="max-width:92%">Nobody looked back. Not because they were cruel. Because when trouble comes, a pack counts its own first. Every pack. Always.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <circle cx="260" cy="60" r="34" fill="#f2dfa0"/>
+        <path d="M0,170 C100,160 220,170 340,160 L340,260 L0,260 Z" fill="#1a1030"/>
+        <path d="M0,205 C100,198 220,212 340,202 L340,260 L0,260 Z" fill="#2e4a7a"/>
+        <use href="#wolf-sit" x="120" y="80" width="90" height="98" fill="#e8b84a"/>
+      </svg>
+      <div class="cap" style="max-width:92%">That's the moment, Hudson. Not the fun part. The part where everyone else heads home.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page">
+    <div class="pgnum wide">FOUR</div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <path d="M0,200 C100,170 240,190 340,180 L340,260 L0,260 Z" fill="#241640"/>
+        <use href="#wolf-sit" x="50" y="70" width="115" height="126" fill="#0f0a1e"/>
+        <use href="#wolf-sit" x="200" y="120" width="72" height="79" fill="#e8b84a"/>
+      </svg>
+      <div class="bub" style="left:12px;top:12px">So here is what a gold wolf does.</div>
+    </div>
+
+    <div class="panel rules">
+      <h2>The gold wolf rules</h2>
+      <ol>
+        <li><b>Your pack always knows</b> where you are and who you're with. Location on, phone charged, no exceptions.</li>
+        <li><b>If the plan changes, you text.</b> Before it changes, not after.</li>
+        <li><b>Never be the one left behind.</b> No "catch up later." You leave when they leave, or you don't go.</li>
+        <li><b>If it feels wrong, leave.</b> You don't owe anyone a reason.</li>
+        <li><b>If your body feels off</b> — tired, dizzy, low — say it out loud. Don't tough it out to fit in.</li>
+        <li><b>With adults or police:</b> calm voice, hands where they can see them. Stay safe now, argue later with Dad next to you.</li>
+        <li><b>Call home. Always.</b> No trouble, no questions, until you're safe.</li>
+      </ol>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#3a2766"/>
+        <circle cx="120" cy="60" r="34" fill="#f2dfa0"/>
+        <path d="M0,190 C150,140 300,170 450,180 C550,187 620,150 700,160 L700,250 L0,250 Z" fill="#241640"/>
+        <use href="#wolf-sit" x="280" y="50" width="120" height="130" fill="#0f0a1e"/>
+        <use href="#wolf-sit" x="410" y="100" width="75" height="82" fill="#e8b84a"/>
+      </svg>
+      <div class="bub big" style="left:12px;top:12px;max-width:44%">I'm not telling you this because I'm scared for you. I'm telling you because I'm proud of you.</div>
+      <div class="cap bot right" style="max-width:52%">Gold is hard to hide. So don't try. Just watch your back the way we'd watch it.</div>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 240" aria-hidden="true">
+        <rect width="700" height="240" fill="#3a2766"/>
+        <circle cx="600" cy="60" r="30" fill="#f2dfa0"/>
+        <path d="M0,200 C100,150 200,180 320,170 C420,162 520,110 700,130 L700,240 L0,240 Z" fill="#241640"/>
+        <use href="#wolf" x="480" y="90" width="70" height="41" fill="#a49fbf"/>
+        <use href="#wolf" x="560" y="80" width="60" height="35" fill="#a49fbf"/>
+        <use href="#wolf" x="600" y="100" width="65" height="38" fill="#a49fbf"/>
+        <use href="#wolf" x="300" y="130" width="85" height="50" fill="#e8b84a"/>
+        <use href="#wolf" x="40" y="160" width="70" height="41" fill="#0f0a1e"/>
+        <use href="#wolf" x="90" y="172" width="60" height="35" fill="#0f0a1e"/>
+        <path d="M160,190 C260,180 360,160 470,128" fill="none" stroke="#e8b84a" stroke-width="3" stroke-dasharray="6 8"/>
+      </svg>
+      <div class="cap">And he went back over the ridge. He always went back. He just went smart.</div>
+    </div>
+
+    <div class="end wide">THE END</div>
+  </div>
+
+  <!-- TALK PAGE -->
+  <div class="talk">
+    <h2>Talk about it with Dad</h2>
+    <p>1. Have you ever been the only one? What did it feel like?</p>
+    <div class="line"></div>
+    <p>2. Which rule would be hardest to follow when your friends are all doing something?</p>
+    <div class="line"></div>
+    <p>3. Ask Dad about a time he was the gold wolf.</p>
+    <div class="line"></div>
+  </div>
+
+</div>
+</body>
+</html>

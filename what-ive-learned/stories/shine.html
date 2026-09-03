@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shine</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#241640; --sky:#3a2766; --dusk:#5a3f8f; --ridge:#1a1030; --ink:#0f0a1e;
+    --gold:#e8b84a; --moon:#f2dfa0; --paper:#f5ecd6; --gray:#a49fbf; --steel:#6d6a85; --water:#2e4a7a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--night);color:var(--ink);font-family:"Comic Neue","Comic Sans MS",cursive;font-size:18px;line-height:1.4}
+  .book{max-width:720px;margin:0 auto;padding:16px}
+  .cover{position:relative;background:var(--paper);border:4px solid var(--ink);overflow:hidden;margin-bottom:22px}
+  .cover svg{display:block;width:100%;height:auto}
+  .cover .title{position:absolute;left:0;right:0;top:30px;text-align:center;color:var(--paper);font-family:Anton,Impact,sans-serif;font-size:96px;line-height:.95;letter-spacing:6px;text-shadow:5px 5px 0 var(--ink)}
+  .cover .title small{display:block;font-size:20px;letter-spacing:4px;color:var(--gold);margin-bottom:6px;text-shadow:2px 2px 0 var(--ink)}
+  .cover .ded{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:var(--moon);font-size:18px;font-style:italic}
+  .page{background:var(--paper);border:4px solid var(--ink);padding:10px;margin-bottom:22px;display:grid;grid-template-columns:1fr;gap:10px}
+  .pgnum{font-family:Anton,Impact,sans-serif;color:var(--gold);letter-spacing:3px;font-size:14px;text-align:right;margin:-2px 4px 10px 0}
+  .panel{position:relative;border:3px solid var(--ink);background:var(--sky);overflow:hidden;min-height:200px}
+  .panel svg{display:block;width:100%;height:auto}
+  .cap{position:absolute;left:10px;top:10px;max-width:80%;background:var(--gold);border:3px solid var(--ink);padding:6px 10px;font-weight:700;font-size:16px;line-height:1.3;box-shadow:3px 3px 0 var(--ink)}
+  .cap.bot{top:auto;bottom:10px}
+  .cap.right{left:auto;right:10px}
+  .bub{position:absolute;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:8px 12px;font-size:16px;line-height:1.3;max-width:62%;box-shadow:3px 3px 0 var(--ink)}
+  .bub:after{content:"";position:absolute;width:14px;height:14px;background:#fff;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg);bottom:-10px;left:26px}
+  .bub.rt:after{left:auto;right:26px}
+  .bub.big{font-size:19px;font-weight:700}
+  .bub.shout{font-family:Anton,Impact,sans-serif;font-size:22px;letter-spacing:1px;border-radius:6px}
+  .sfx{position:absolute;font-family:Anton,Impact,sans-serif;color:var(--gold);font-size:40px;letter-spacing:2px;text-shadow:3px 3px 0 var(--ink);transform:rotate(-8deg)}
+  .rules{background:var(--paper);padding:16px 18px;min-height:0}
+  .rules h2{font-family:Anton,Impact,sans-serif;font-size:30px;margin:0 0 10px;letter-spacing:1px}
+  .rules ol{margin:0;padding-left:26px}
+  .rules li{margin:0 0 10px;font-size:18px}
+  .rules li b{background:var(--gold);padding:0 4px}
+  .end{text-align:center;font-family:Anton,Impact,sans-serif;font-size:34px;letter-spacing:4px;padding:14px 0 6px}
+  .talk{background:var(--paper);border:4px solid var(--ink);padding:16px 18px;margin-bottom:22px}
+  .talk h2{font-family:Anton,Impact,sans-serif;font-size:28px;margin:0 0 8px;letter-spacing:1px}
+  .talk p{margin:0 0 10px}
+  .talk .line{border-bottom:2px dashed var(--ink);height:34px}
+  @media (min-width:560px){ .page{grid-template-columns:1fr 1fr} .wide{grid-column:1 / -1} }
+  @media (prefers-reduced-motion:no-preference){
+    .glowpulse{animation:pulse 4s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:.3}50%{opacity:.6}}
+  }
+  .back{display:inline-block;color:var(--gold);font-family:Anton,Impact,sans-serif;letter-spacing:2px;text-decoration:none;font-size:16px;margin:0 0 12px}
+  .back:hover{color:var(--moon)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="fig" viewBox="0 0 60 120"><circle cx="30" cy="16" r="12"/><rect x="18" y="30" width="24" height="44" rx="8"/><rect x="6" y="32" width="10" height="34" rx="5"/><rect x="44" y="32" width="10" height="34" rx="5"/><rect x="19" y="72" width="10" height="44" rx="5"/><rect x="31" y="72" width="10" height="44" rx="5"/></symbol>
+    <symbol id="fig-up" viewBox="0 0 60 120"><circle cx="30" cy="16" r="12"/><rect x="18" y="30" width="24" height="44" rx="8"/><rect x="5" y="0" width="10" height="36" rx="5"/><rect x="45" y="0" width="10" height="36" rx="5"/><rect x="19" y="72" width="10" height="44" rx="5"/><rect x="31" y="72" width="10" height="44" rx="5"/></symbol>
+    <symbol id="fig-run" viewBox="0 0 70 120"><circle cx="34" cy="16" r="12"/><rect x="22" y="30" width="24" height="44" rx="8"/><rect x="4" y="34" width="10" height="34" rx="5" transform="rotate(-40 9 34)"/><rect x="48" y="30" width="10" height="34" rx="5" transform="rotate(40 53 30)"/><rect x="10" y="72" width="10" height="44" rx="5" transform="rotate(30 15 72)"/><rect x="40" y="72" width="10" height="44" rx="5" transform="rotate(-30 45 72)"/></symbol>
+    <symbol id="fig-sit" viewBox="0 0 60 90"><circle cx="30" cy="16" r="12"/><rect x="18" y="30" width="24" height="40" rx="8"/><rect x="6" y="34" width="10" height="30" rx="5"/><rect x="44" y="34" width="10" height="30" rx="5"/><rect x="14" y="66" width="34" height="12" rx="5"/><rect x="14" y="70" width="10" height="20" rx="5"/><rect x="38" y="70" width="10" height="20" rx="5"/></symbol>
+    <symbol id="cape" viewBox="0 0 60 120"><path d="M12,30 L48,30 L58,110 L30,96 L2,110 Z"/></symbol>
+  </defs>
+</svg>
+
+<div class="book">
+  <a class="back" href="../">&larr; WHAT I'VE LEARNED</a>
+
+  <!-- COVER -->
+  <div class="cover">
+    <svg viewBox="0 0 700 600" role="img" aria-label="Cover: a glowing gold hero stands on a rooftop under a full moon, his cape flying, the city dark behind him">
+      <rect width="700" height="600" fill="#241640"/>
+      <circle class="glowpulse" cx="350" cy="330" r="200" fill="#e8b84a" opacity=".35"/>
+      <circle cx="560" cy="120" r="60" fill="#f2dfa0"/>
+      <g fill="#f2dfa0"><circle cx="60" cy="100" r="2.5"/><circle cx="140" cy="60" r="2"/><circle cx="240" cy="130" r="2.5"/><circle cx="330" cy="70" r="2"/><circle cx="660" cy="260" r="2"/><circle cx="90" cy="240" r="2"/><circle cx="420" cy="40" r="2"/></g>
+      <g fill="#1a1030"><rect x="0" y="380" width="90" height="220"/><rect x="100" y="420" width="70" height="180"/><rect x="180" y="340" width="110" height="260"/><rect x="420" y="360" width="90" height="240"/><rect x="520" y="410" width="120" height="190"/><rect x="650" y="370" width="50" height="230"/></g>
+      <g fill="#3a2766"><rect x="20" y="400" width="12" height="16"/><rect x="50" y="440" width="12" height="16"/><rect x="200" y="370" width="12" height="16"/><rect x="250" y="400" width="12" height="16"/><rect x="440" y="390" width="12" height="16"/><rect x="560" y="440" width="12" height="16"/><rect x="600" y="480" width="12" height="16"/></g>
+      <rect x="290" y="460" width="130" height="140" fill="#0f0a1e"/>
+      <use href="#cape" x="300" y="200" width="110" height="260" fill="#5a3f8f"/>
+      <use href="#fig" x="300" y="200" width="110" height="260" fill="#e8b84a"/>
+    </svg>
+    <div class="title"><small>A COMIC FOR HUDSON</small>SHINE</div>
+    <div class="ded">From Dad.</div>
+  </div>
+
+  <!-- PAGE 1: ORIGIN -->
+  <div class="page">
+    <div class="pgnum wide">ONE</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#3a2766"/>
+        <rect x="40" y="40" width="620" height="170" rx="8" fill="#241640"/>
+        <rect x="60" y="150" width="300" height="50" rx="6" fill="#1a1030"/>
+        <rect x="70" y="140" width="80" height="20" rx="6" fill="#5a3f8f"/>
+        <circle cx="200" cy="130" r="90" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig-sit" x="160" y="60" width="90" height="135" fill="#e8b84a"/>
+        <rect x="560" y="60" width="70" height="130" rx="4" fill="#5a3f8f"/>
+      </svg>
+      <div class="cap">Hudson was thirteen the morning he woke up glowing.</div>
+      <div class="bub rt shout" style="right:14px;bottom:44px">WHAT.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <rect x="40" y="30" width="180" height="200" rx="6" fill="#3a2766"/>
+        <rect x="52" y="42" width="156" height="176" fill="#5a3f8f"/>
+        <circle cx="130" cy="130" r="70" fill="#e8b84a" opacity=".4"/>
+        <use href="#fig" x="95" y="55" width="70" height="165" fill="#e8b84a"/>
+      </svg>
+      <div class="cap bot" style="max-width:92%">He tried a hoodie. Sunglasses. Standing in the dark. It didn't matter. Gold came through everything.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <rect x="0" y="200" width="340" height="60" fill="#241640"/>
+        <circle cx="90" cy="120" r="70" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="55" y="50" width="70" height="165" fill="#e8b84a"/>
+        <circle cx="240" cy="110" r="60" fill="#e8b84a" opacity=".15"/>
+        <use href="#fig" x="200" y="30" width="80" height="190" fill="#0f0a1e"/>
+      </svg>
+      <div class="bub rt" style="right:12px;top:12px;max-width:58%">I know. I've been waiting for this.</div>
+      <div class="cap bot" style="max-width:60%">Dad had it too. Faded now. But he'd never lost it.</div>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 220" aria-hidden="true">
+        <rect width="700" height="220" fill="#241640"/>
+        <rect x="0" y="170" width="700" height="50" fill="#1a1030"/>
+        <circle cx="150" cy="110" r="70" fill="#e8b84a" opacity=".2"/>
+        <use href="#fig-sit" x="100" y="40" width="90" height="135" fill="#0f0a1e"/>
+        <circle cx="290" cy="120" r="55" fill="#e8b84a" opacity=".4"/>
+        <use href="#fig-sit" x="260" y="70" width="70" height="105" fill="#e8b84a"/>
+      </svg>
+      <div class="bub big" style="left:360px;top:16px;max-width:46%">It's not a curse. It's power. But you're old enough to hear the rest of it straight.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: THE POWER AND THE COST -->
+  <div class="page">
+    <div class="pgnum wide">TWO</div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <rect x="0" y="210" width="340" height="50" fill="#241640"/>
+        <circle cx="170" cy="120" r="90" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig-run" x="120" y="40" width="100" height="170" fill="#e8b84a"/>
+        <path d="M20,140 L100,140 M10,170 L90,170 M30,200 L110,200" stroke="#e8b84a" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div class="cap">The glow made him fast.</div>
+      <div class="sfx" style="right:18px;bottom:28px">ZOOM</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <rect x="0" y="210" width="340" height="50" fill="#241640"/>
+        <circle cx="170" cy="130" r="90" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig-up" x="130" y="50" width="80" height="170" fill="#e8b84a"/>
+        <rect x="90" y="40" width="160" height="30" rx="4" fill="#6d6a85"/>
+      </svg>
+      <div class="cap">Strong. Steady. Hard to knock down.</div>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#5a3f8f"/>
+        <rect x="0" y="200" width="700" height="50" fill="#3a2766"/>
+        <g fill="#241640"><rect x="30" y="60" width="130" height="140" rx="4"/><rect x="180" y="60" width="130" height="140" rx="4"/><rect x="540" y="60" width="130" height="140" rx="4"/></g>
+        <circle cx="420" cy="130" r="80" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="390" y="55" width="60" height="145" fill="#e8b84a"/>
+        <use href="#fig" x="70" y="80" width="50" height="120" fill="#6d6a85"/>
+        <use href="#fig" x="220" y="80" width="50" height="120" fill="#6d6a85"/>
+        <use href="#fig" x="580" y="80" width="50" height="120" fill="#6d6a85"/>
+        <g stroke="#f2dfa0" stroke-width="2" fill="none" opacity=".7"><path d="M120,110 L380,120"/><path d="M270,110 L385,125"/><path d="M580,110 L460,125"/></g>
+      </svg>
+      <div class="cap">But the same thing that made him strong made him seen. Everywhere he went, people looked first.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#5a3f8f"/>
+        <rect x="0" y="210" width="340" height="50" fill="#3a2766"/>
+        <rect x="20" y="40" width="130" height="170" fill="#6d6a85"/>
+        <rect x="30" y="50" width="110" height="20" fill="#3a2766"/><rect x="30" y="80" width="110" height="20" fill="#3a2766"/><rect x="30" y="110" width="110" height="20" fill="#3a2766"/>
+        <circle cx="230" cy="130" r="60" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="205" y="70" width="55" height="140" fill="#e8b84a"/>
+        <use href="#fig" x="280" y="60" width="55" height="150" fill="#0f0a1e"/>
+      </svg>
+      <div class="cap bot" style="max-width:92%">The store guy who followed him down every aisle. His friends got to browse.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <rect x="0" y="210" width="340" height="50" fill="#1a1030"/>
+        <circle cx="120" cy="140" r="60" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="95" y="80" width="55" height="130" fill="#e8b84a"/>
+        <use href="#fig" x="230" y="70" width="55" height="140" fill="#6d6a85"/>
+        <rect x="225" y="20" width="60" height="40" rx="4" fill="#2e4a7a"/><rect x="235" y="28" width="15" height="10" fill="#c9532e"/><rect x="260" y="28" width="15" height="10" fill="#5b7fb8"/>
+      </svg>
+      <div class="cap" style="max-width:92%">The officer who slowed down and stared. Just stared. Didn't do that to anyone else on the block.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: THE CREW -->
+  <div class="page">
+    <div class="pgnum wide">THREE</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#3a2766"/>
+        <rect x="0" y="200" width="700" height="50" fill="#241640"/>
+        <circle cx="350" cy="130" r="80" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="150" y="60" width="60" height="145" fill="#a49fbf"/>
+        <use href="#fig" x="230" y="60" width="60" height="145" fill="#a49fbf"/>
+        <use href="#fig" x="320" y="55" width="60" height="150" fill="#e8b84a"/>
+        <use href="#fig" x="410" y="60" width="60" height="145" fill="#a49fbf"/>
+        <use href="#fig" x="490" y="60" width="60" height="145" fill="#a49fbf"/>
+      </svg>
+      <div class="cap">Then there was the crew. Same school, same street, same jokes since second grade.</div>
+      <div class="cap bot right" style="max-width:50%">They didn't glow. They didn't need to.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#3a2766"/>
+        <rect x="0" y="210" width="340" height="50" fill="#241640"/>
+        <circle cx="120" cy="140" r="60" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig-run" x="70" y="60" width="90" height="150" fill="#e8b84a"/>
+        <use href="#fig-run" x="180" y="70" width="80" height="140" fill="#a49fbf"/>
+        <use href="#fig-run" x="250" y="80" width="75" height="130" fill="#a49fbf"/>
+      </svg>
+      <div class="cap">Bikes. Basketball. Xbox till one in the morning. Real friends.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <rect x="0" y="210" width="340" height="50" fill="#1a1030"/>
+        <use href="#fig-sit" x="40" y="60" width="90" height="135" fill="#0f0a1e"/>
+        <circle cx="230" cy="140" r="55" fill="#e8b84a" opacity=".4"/>
+        <use href="#fig-sit" x="200" y="90" width="70" height="105" fill="#e8b84a"/>
+      </svg>
+      <div class="bub" style="left:12px;top:12px;max-width:80%">Go. Have fun. I'm not telling you not to. I'm telling you to keep your eyes open.</div>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 230" aria-hidden="true">
+        <rect width="700" height="230" fill="#241640"/>
+        <rect x="0" y="180" width="700" height="50" fill="#1a1030"/>
+        <circle cx="350" cy="110" r="80" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig-sit" x="300" y="50" width="100" height="150" fill="#0f0a1e"/>
+        <ellipse cx="335" cy="78" rx="10" ry="5" fill="#e8b84a"/><ellipse cx="365" cy="78" rx="10" ry="5" fill="#e8b84a"/>
+      </svg>
+      <div class="bub big" style="left:14px;top:14px;max-width:38%">Out there, you're the only one who glows.</div>
+      <div class="bub big rt" style="right:14px;bottom:14px;max-width:40%">When it gets dark, they can disappear. You can't.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: THE QUARRY -->
+  <div class="page">
+    <div class="pgnum wide">FOUR</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#241640"/>
+        <circle cx="600" cy="50" r="30" fill="#f2dfa0"/>
+        <path d="M0,150 C120,120 240,140 360,130 C480,120 600,110 700,120 L700,250 L0,250 Z" fill="#1a1030"/>
+        <path d="M0,185 C120,175 260,200 400,190 C520,182 620,195 700,188 L700,250 L0,250 Z" fill="#2e4a7a"/>
+        <path d="M60,210 C120,205 180,215 240,208 M300,222 C360,216 420,226 480,218" fill="none" stroke="#5b7fb8" stroke-width="2"/>
+        <use href="#fig" x="140" y="70" width="50" height="120" fill="#a49fbf"/>
+        <use href="#fig" x="220" y="70" width="50" height="120" fill="#a49fbf"/>
+        <use href="#fig" x="300" y="70" width="50" height="120" fill="#a49fbf"/>
+        <circle cx="420" cy="130" r="60" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="395" y="68" width="50" height="122" fill="#e8b84a"/>
+        <use href="#fig" x="500" y="70" width="50" height="120" fill="#a49fbf"/>
+        <rect x="560" y="120" width="90" height="40" rx="4" fill="#3a2766"/><text x="605" y="146" text-anchor="middle" fill="#f2dfa0" font-family="Anton" font-size="14">NO TRESPASSING</text>
+      </svg>
+      <div class="cap">Friday night. The old quarry. Nobody was supposed to be there. Everybody was.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <path d="M0,160 C100,150 220,160 340,150 L340,260 L0,260 Z" fill="#1a1030"/>
+        <path d="M0,200 C100,190 220,210 340,200 L340,260 L0,260 Z" fill="#2e4a7a"/>
+        <path d="M300,20 L200,190 L340,190 Z" fill="#f2dfa0" opacity=".5"/>
+        <circle cx="300" cy="22" r="12" fill="#f2dfa0"/>
+      </svg>
+      <div class="bub shout" style="left:12px;top:12px">HEY! WHO'S DOWN THERE?</div>
+      <div class="cap bot" style="max-width:80%">A flashlight. A grown-up voice. Boots on gravel.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#1a1030"/>
+        <path d="M0,200 C100,190 220,210 340,200 L340,260 L0,260 Z" fill="#2e4a7a"/>
+        <g transform="translate(120,0) scale(-1,1)"><use href="#fig-run" x="10" y="60" width="80" height="135" fill="#3a2766"/></g>
+        <g transform="translate(220,0) scale(-1,1)"><use href="#fig-run" x="0" y="80" width="70" height="115" fill="#3a2766"/></g>
+        <use href="#fig-run" x="220" y="70" width="80" height="130" fill="#3a2766"/>
+        <use href="#fig-run" x="60" y="110" width="60" height="100" fill="#2b1f4a"/>
+      </svg>
+      <div class="bub shout" style="right:12px;top:12px;max-width:50%">RUN!</div>
+      <div class="cap bot" style="max-width:92%">The crew scattered into the dark and the dark took them. Just like that. Gone.</div>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 260" aria-hidden="true">
+        <rect width="700" height="260" fill="#1a1030"/>
+        <path d="M0,210 C120,200 260,220 400,212 C520,205 620,215 700,210 L700,260 L0,260 Z" fill="#2e4a7a"/>
+        <path d="M650,10 L250,215 L470,215 Z" fill="#f2dfa0" opacity=".35"/>
+        <circle cx="350" cy="130" r="95" fill="#e8b84a" opacity=".45"/>
+        <use href="#fig" x="320" y="55" width="60" height="150" fill="#e8b84a"/>
+      </svg>
+      <div class="cap">Hudson could run faster than any of them. That wasn't the problem.</div>
+      <div class="cap bot right" style="max-width:56%">The problem was that a glowing kid running in the dark is the only thing anyone sees.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: THE REAL POWER -->
+  <div class="page">
+    <div class="pgnum wide">FIVE</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 230" aria-hidden="true">
+        <rect width="700" height="230" fill="#241640"/>
+        <circle cx="350" cy="115" r="100" fill="#e8b84a" opacity=".2"/>
+        <use href="#fig-sit" x="300" y="40" width="100" height="150" fill="#0f0a1e"/>
+        <ellipse cx="335" cy="68" rx="10" ry="5" fill="#e8b84a"/><ellipse cx="365" cy="68" rx="10" ry="5" fill="#e8b84a"/>
+      </svg>
+      <div class="cap">He heard Dad's voice, clear as if he were standing there.</div>
+      <div class="bub big" style="left:14px;bottom:14px;max-width:44%">Speed is the small power. Control is the big one.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#1a1030"/>
+        <path d="M0,210 C100,200 220,220 340,210 L340,260 L0,260 Z" fill="#2e4a7a"/>
+        <circle cx="170" cy="130" r="90" fill="#e8b84a" opacity=".45"/>
+        <use href="#fig-up" x="130" y="40" width="80" height="180" fill="#e8b84a"/>
+      </svg>
+      <div class="cap">He stopped. Hands up. Glow steady. Voice calm.</div>
+      <div class="bub" style="left:12px;bottom:40px;max-width:80%">My name is Hudson. I'm thirteen. I'm not running.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#1a1030"/>
+        <path d="M0,210 C100,200 220,220 340,210 L340,260 L0,260 Z" fill="#2e4a7a"/>
+        <circle cx="110" cy="140" r="60" fill="#e8b84a" opacity=".4"/>
+        <use href="#fig" x="85" y="75" width="55" height="135" fill="#e8b84a"/>
+        <rect x="118" y="120" width="14" height="24" rx="3" fill="#0f0a1e"/>
+        <use href="#fig" x="230" y="60" width="60" height="150" fill="#6d6a85"/>
+        <circle cx="250" cy="90" r="8" fill="#f2dfa0"/>
+      </svg>
+      <div class="bub" style="left:12px;top:12px;max-width:70%">Can I call my dad? He's expecting me. He knows where I am.</div>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#1a1030"/>
+        <path d="M0,200 C120,190 260,210 400,202 C520,195 620,205 700,200 L700,250 L0,250 Z" fill="#2e4a7a"/>
+        <rect x="20" y="120" width="140" height="70" rx="8" fill="#0f0a1e"/><circle cx="50" cy="195" r="14" fill="#241640"/><circle cx="130" cy="195" r="14" fill="#241640"/>
+        <circle cx="220" cy="130" r="70" fill="#e8b84a" opacity=".2"/>
+        <use href="#fig" x="190" y="50" width="65" height="150" fill="#0f0a1e"/>
+        <circle cx="330" cy="140" r="60" fill="#e8b84a" opacity=".4"/>
+        <use href="#fig" x="305" y="75" width="55" height="130" fill="#e8b84a"/>
+        <use href="#fig" x="460" y="55" width="60" height="150" fill="#6d6a85"/>
+      </svg>
+      <div class="cap">Dad was there in eleven minutes. Because Dad knew exactly where to come.</div>
+      <div class="bub rt" style="right:14px;bottom:14px;max-width:46%">Evening, officer. That's my son. Let's talk.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: AFTER -->
+  <div class="page">
+    <div class="pgnum wide">SIX</div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 240" aria-hidden="true">
+        <rect width="700" height="240" fill="#5a3f8f"/>
+        <circle cx="100" cy="60" r="34" fill="#f2dfa0"/>
+        <rect x="0" y="190" width="700" height="50" fill="#3a2766"/>
+        <use href="#fig" x="380" y="60" width="55" height="130" fill="#a49fbf"/>
+        <use href="#fig" x="450" y="60" width="55" height="130" fill="#a49fbf"/>
+        <use href="#fig" x="520" y="60" width="55" height="130" fill="#a49fbf"/>
+        <use href="#fig" x="590" y="60" width="55" height="130" fill="#a49fbf"/>
+        <circle cx="200" cy="130" r="65" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="170" y="60" width="60" height="130" fill="#e8b84a"/>
+      </svg>
+      <div class="cap">Saturday morning the crew showed up at the door. All four of them. Looking at their shoes.</div>
+      <div class="bub rt" style="right:14px;bottom:14px;max-width:40%">Bro. We're sorry. We didn't even think.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <rect x="0" y="210" width="340" height="50" fill="#1a1030"/>
+        <use href="#fig-sit" x="40" y="60" width="90" height="135" fill="#0f0a1e"/>
+        <circle cx="230" cy="140" r="55" fill="#e8b84a" opacity=".4"/>
+        <use href="#fig-sit" x="200" y="90" width="70" height="105" fill="#e8b84a"/>
+      </svg>
+      <div class="bub" style="left:12px;top:12px;max-width:88%">They're not bad kids. They ran because they could vanish. You can't. That's the whole lesson.</div>
+    </div>
+
+    <div class="panel">
+      <svg viewBox="0 0 340 260" aria-hidden="true">
+        <rect width="340" height="260" fill="#241640"/>
+        <rect x="0" y="210" width="340" height="50" fill="#1a1030"/>
+        <circle cx="170" cy="130" r="90" fill="#e8b84a" opacity=".2"/>
+        <use href="#fig-sit" x="120" y="40" width="100" height="150" fill="#0f0a1e"/>
+        <ellipse cx="155" cy="68" rx="10" ry="5" fill="#e8b84a"/><ellipse cx="185" cy="68" rx="10" ry="5" fill="#e8b84a"/>
+      </svg>
+      <div class="bub big" style="left:12px;bottom:14px;max-width:88%">You did it right. Not because you were fast. Because you were the calmest person there.</div>
+    </div>
+
+    <div class="panel rules wide">
+      <h2>The gold protocols</h2>
+      <ol>
+        <li><b>Your people always know</b> where you are and who you're with. Location on, phone charged, no exceptions.</li>
+        <li><b>If the plan changes, you text.</b> Before it changes, not after.</li>
+        <li><b>Never be the one left behind.</b> No "catch up later." You leave when they leave, or you don't go.</li>
+        <li><b>If it feels wrong, leave.</b> You don't owe anyone a reason.</li>
+        <li><b>If your body feels off</b> — tired, dizzy, low — say it out loud. Don't tough it out to fit in.</li>
+        <li><b>With adults or police:</b> stop, hands visible, calm voice, say your name. Stay safe now. Argue later, with Dad next to you.</li>
+        <li><b>Call home. Always.</b> No trouble, no questions, until you're safe.</li>
+      </ol>
+    </div>
+
+    <div class="panel wide">
+      <svg viewBox="0 0 700 250" aria-hidden="true">
+        <rect width="700" height="250" fill="#3a2766"/>
+        <circle cx="600" cy="50" r="30" fill="#f2dfa0"/>
+        <rect x="0" y="200" width="700" height="50" fill="#241640"/>
+        <use href="#fig" x="230" y="60" width="55" height="140" fill="#a49fbf"/>
+        <use href="#fig" x="300" y="60" width="55" height="140" fill="#a49fbf"/>
+        <circle cx="400" cy="130" r="65" fill="#e8b84a" opacity=".35"/>
+        <use href="#fig" x="370" y="55" width="60" height="145" fill="#e8b84a"/>
+        <use href="#fig" x="460" y="60" width="55" height="140" fill="#a49fbf"/>
+        <use href="#fig" x="530" y="60" width="55" height="140" fill="#a49fbf"/>
+        <use href="#fig" x="60" y="40" width="65" height="160" fill="#0f0a1e"/>
+      </svg>
+      <div class="cap">He went back out with the crew. He always went back out. He just went smart.</div>
+      <div class="cap bot right" style="max-width:50%">And he never once tried to hide the glow again.</div>
+    </div>
+
+    <div class="end wide">THE END</div>
+  </div>
+
+  <!-- TALK PAGE -->
+  <div class="talk">
+    <h2>Talk about it with Dad</h2>
+    <p>1. Where in your real life do you "glow"? Where do people look at you first?</p>
+    <div class="line"></div>
+    <p>2. At the quarry, what would you have done? Be honest.</p>
+    <div class="line"></div>
+    <p>3. Which protocol would be hardest when the whole crew is doing something?</p>
+    <div class="line"></div>
+    <p>4. Ask Dad about a time he was the only one who glowed.</p>
+    <div class="line"></div>
+  </div>
+
+</div>
+</body>
+</html>
